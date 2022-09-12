@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Contest Subscription page
+{% endblock %}
+
+{% block css %}
+.ebbok-main{
+
+    }
+{% endblock %}
+//// main content
+{% block content %}
+
+
+<main role="main" class="container">
+      <div class="row" style="margin-top: 10%;">
+        <div class="col-md-8 ebbok-main">
+         <div class="p-3">
+            <h4 class="font-weight-bold text-center  border-bottom mb-4">Payment Section</h4>
+             <div id="paypal-button-container-2"></div>
+          </div>
+        </div><!-- /.blog-main -->
+
+        <aside class="col-md-4 blog-sidebar">
+          <div class="p-3">
+            <h4 class="font-weight-bold">{{ pack }} Subscription</h4>
+               <h2 class="mt-2 mb-2">Price : {{ price }} USD</h2>
+
+          </div>
+        </aside><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </main>
+         <script src="https://www.paypal.com/sdk/js?client-id=AWcdmJpX013pfaFGmkt8_nxH43KbBt1gRo0a4mk2w2JCnK08n4qHYxxrjw7pAD82sHSd82_3_Q2ec1sx&currency=USD"></script>
+
+    <script>
+                function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+         var csrftoken = getCookie('csrftoken');
+         var total = '{{ price }}';
+         var user = '{{ username }}';
+         var package= '{{ pack }}'
+
+         function SubscriptionDone()
+         {
+             var url = "{% url 'scomplete' %}"
+             fetch(url, {
+                 method : 'POST',
+                 headers : {
+                     'Content-type':'application/json',
+                     'X-CSRFToken':csrftoken,
+                 },
+                 body:JSON.stringify({'subscription_user' : user,'packname':package})
+             });
+
+
+         }
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: total
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    SubscriptionDone()
+                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+
+                });
+            }
+
+
+        }).render('#paypal-button-container-2');
+    </script>
+{% endblock %}

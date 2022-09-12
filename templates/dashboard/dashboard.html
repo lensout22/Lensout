@@ -1,0 +1,92 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+<div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Total Contest {{ total_contest }}</h4>
+                                     <hr>
+                                </div>
+                                <div class="card-body ">
+                                    <div class="legend">
+                                        <i class="fa fa-circle text-info"></i> Open {{ running_contest }} <br>
+                                        <i class="fa fa-circle text-danger"></i> Close {{ close_cons }} <br>
+                                        <i class="fa fa-circle text-warning"></i> Money Spend {{ total_spend }}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-3">
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Total Win Contest {{ winner_contest }}</h4>
+                                    <hr>
+                                </div>
+                                <div class="card-body ">
+                                    <div class="legend">
+                                        <i class="fa fa-circle text-info"></i> Total Win ${{ total_win_ammount }}<br>
+                                        <i class="fa fa-circle text-danger"></i> Contest Join {{ total_join }} <br>
+                                        <i class="fa fa-circle text-warning"></i> Total uploaded photo {{ total_photo_upload }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4 class="card-title">My Balance</h4>
+                                    <hr>
+                                </div>
+                                <div class="card-body ">
+                                    <div class="legend">
+                                        <h3 class="text-center">{{ request.user.profile.balance  }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                   <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-plain table-plain-bg">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Your Withdraw Request Status</h4>
+                                   <hr>
+                                </div>
+                                <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr><th>ID</th>
+                                            <th>Name</th>
+                                            <th>Paypal Gmail</th>
+                                            <th>Payment</th>
+                                            <th>Status</th>
+                                        </tr></thead>
+                                        <tbody>
+                                        {% for foo in  withdraw %}
+
+                                            <tr>
+                                                <td>{{ foo.id }}</td>
+                                                <td>{{ foo.request_user.username }}</td>
+                                                <td>{{ foo.paypal }}</td>
+                                                <td>{{ foo.payment }}</td>
+                                                 {% if foo.status == True %}
+                                                     <td class="fas fa-check-circle text-success" >&nbsp;  Success</td>
+                                                 {% else %}
+                                                     <td class="fas fa-clock text-warning">&nbsp; Pending</td>
+                                                    {% endif %}
+                                            </tr>
+                                          {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

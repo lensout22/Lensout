@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Subscription page
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" style="margin-top: 10%;padding-left: 10%;padding-right: 10%;">
+    <div class="col">
+      <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">30 DAYS</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title p-30">$10</h1>
+          </div>
+            <div class="">
+             <a href="{% url 'checkout'  pack='1M' %}"  class="btn btn-lg btn-block btn-primary">Pay now</a>
+          </div>
+        </div>
+    </div>
+    <div class="col">
+             <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">3 MONTH</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title p-30">$25</h1>
+          </div>
+          <div class="">
+             <a href="{% url 'checkout'  pack='3M' %}"  class="btn btn-lg btn-block btn-primary">Pay now</a>
+          </div>
+        </div>
+    </div>
+    <div class="col">
+       <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">1 YEAR</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title p-30">$60</h1>
+          </div>
+          <div class="">
+              <a href="{% url 'checkout'  pack='12M' %}"  class="btn btn-lg btn-block btn-primary">Pay now</a>
+          </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}

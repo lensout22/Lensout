@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+About me
+{% endblock %}
+{% block content %}>
+    <style>
+    .col{
+    width: 50%;
+    max-width: 100%;
+    padding: 3px 0px;
+    border-radius: 10px;
+    border: 1px solid #d32f2f;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    background: #d32f2f;
+    color: white;
+    }
+    .col,a{
+        color: white;
+    }
+    </style>
+   <div class="about-me-area pt-100 pb-100">
+            <div class="container">
+                <div class="row about-me">
+                    <div class="col-lg-6 col-md-12 mb-md-30">
+                        <div class="images">
+                            <a href="#">
+                                <img src="{{ profile.photo.url }}" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="my-infos">
+                            <h3 class="my-name">I AM <a>{{ profile.name }}</a></h3>
+                            <p><span class="my-position">{{ profile.designation }}</span></p>
+                            <blockquote>
+                                {{ profile.details }}
+                            </blockquote>
+                        </div>
+
+                        <div class="flex call-info">
+                                    <div class="col">
+                                        <div class="contact-box">
+                                            <i class="fa fa-phone-square" aria-hidden="true"></i> <span><a href="tel:+88{{ profile.phone }}">{{ profile.phone }}</a></span>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="contact-box">
+                                            <i class="fa fa-envelope" aria-hidden="true"></i> <span>{{ profile.email }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="contact-box">
+                                            <i class="fa fa-compass" aria-hidden="true"></i> <span>{{ profile.address }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="contact-box">
+                                            <i class="fab fa-facebook" aria-hidden="true"></i><span><a href="{{ profile.facebook }}"> Open Facebook</a></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   <div class="skill-bar-area pt-100 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="skill-info">
+                            <h3>My Skillset</h3>
+                            <p>{{ profile.skills_deatils }}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="skill-content-3">
+                            <div class="skill">
+                                <!-- PROGRESS START -->
+                                <div class="progress">
+                                    <div class="lead">Photography</div>
+                                    <div class="progress-bar wow fadeInLeft" data-progress="{{ profile.photograpy_skill }}%" style="width: {{ profile.photograpy_skill }}%;" data-wow-duration="1.5s" data-wow-delay="1.2s"> <span>{{ profile.photograpy_skill }}%</span></div>
+                                </div>
+                                <!-- PROGRESS END -->
+                                <!-- PROGRESS START -->
+                                <div class="progress">
+                                    <div class="lead">Natural Shot</div>
+                                    <div class="progress-bar wow fadeInLeft" data-progress="{{ profile.naturalshot_skill }}%" style="width:{{ profile.naturalshot_skill }}%;" data-wow-duration="1.5s" data-wow-delay="1.2s"><span>{{ profile.naturalshot_skill }}%</span> </div>
+                                </div>
+                                <!-- PROGRESS END -->
+                                <!-- PROGRESS START -->
+                                <div class="progress">
+                                    <div class="lead">Selfie Expert</div>
+                                    <div class="progress-bar wow fadeInLeft" data-progress="{{ profile.selfiexpert_skill }}%" style="width: {{ profile.selfiexpert_skill }}%;" data-wow-duration="1.5s" data-wow-delay="1.2s"><span>{{ profile.selfiexpert_skill }}%</span> </div>
+                                </div>
+                                <!-- PROGRESS END -->
+                                <!-- PROGRESS START -->
+                                <div class="progress">
+                                    <div class="lead">Funny Shot</div>
+                                    <div class="progress-bar wow fadeInLeft" data-progress="{{ profile.funnyshot_skill }}%" style="width: {{ profile.funnyshot_skill }}%;" data-wow-duration="1.5s" data-wow-delay="1.2s"><span>{{ profile.funnyshot_skill }}%</span> </div>
+                                </div>
+                                <!-- PROGRESS END -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

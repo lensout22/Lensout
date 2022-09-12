@@ -1,0 +1,36 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}
+choose balance
+{% endblock %}
+
+{% block content %}
+ <div class="content">
+     <div class="container-fluid">
+          <div class="row">
+               <div class="col-md-6" style="margin: 0 auto;">
+                    <div class="card">
+                          <div class="card-header">
+                               <h4 class="card-title">Input your Amount</h4>
+                          </div>
+                          <div class="card-body">
+                               <form method="post">{% csrf_token %}
+                                   <div class="row">
+                                       <div class="col-md-12 pr-1">
+                                           <div class="form-group">
+                                               <label>Select Amount</label>
+                                               <input type="text" class="form-control" name="money" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');">
+                                           </div>
+                                       </div>
+                                   </div>
+
+                                   <button type="submit" class="btn btn-info btn-fill pull-right col-sm-12">Payment</button>
+                                   <div class="clearfix"></div>
+                               </form>
+                          </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+ </div>
+{% endblock %}

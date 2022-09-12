@@ -1,0 +1,202 @@
+ {% extends 'base.html' %}
+{% block title %}
+Update Profile page
+{% endblock %}
+{% block css %}
+
+            .error{
+                color: red;
+            }
+            .registerTitle{
+                font-weight: 700;
+                text-transform: uppercase;
+                color: #d32f2f;
+            }
+            .registerBtn{
+                background: #d32f2f;
+                border: 0 none;
+                color: #ffffff;
+                font-weight: bold;
+                padding: 10px 15px;
+                border-radius: 30px;
+                box-shadow: 2px 0px 11px -2px #d32f2f;
+                transition: all 0.5s ease 0s;
+                margin-top: 30px;
+                width: auto;
+                text-transform: uppercase;
+            }
+    .file {
+  visibility: hidden;
+  position: absolute;
+}
+{% endblock %}
+{% block content %}
+        <!-- Contact Us page Start Here -->
+        <div class="contact-us-page-area pt-100 pb-100">
+
+            <div class="container">
+                <div class="contact-section">
+                    <div class="leave-comments-area">
+                        <div class="section-title">
+                            <h2>Registration  <span>Complete</span></h2>
+                        </div>
+                        <div id="form-messages">
+
+                        </div>
+                        <div class="container mt-4">
+                            <form class="card shadow-lg p-4" style="max-width: 600px;margin:0 auto;border-radius: 14px;" method="post" action="" id="completeprofile" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {%for message in messages %}
+                                    {%if "profile_update" in message.tags %}
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                      <strong>{{ message }}</strong>
+                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <h3 class="border-bottom py-2 registerTitle">Complete Profile </h3>
+                                <div class="row g-4">
+                                      <div class="col-md-6">
+                                          <label for="genderField" class="form-label">User Type</label>
+                                           <select class="form-control" name="role" required>
+                                               <option value="p" {% if user.role == "p" %} selected {% endif %}>photographer</option>
+                                               <option value="c" {% if user.role == "c" %} selected {% endif %}>contest organizer</option>
+                                           </select>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label for="genderField" class="form-label">Select Gender</label>
+                                           <select class="form-control" name="gender" required>
+                                               <option name="Male"   {% if user.gender == "Male" %} selected {% endif %}>Male</option>
+                                               <option name="Female" {% if user.gender == "Female" %} selected {% endif %}>Female</option>
+                                               <option name="Others" {% if user.gender == "Others" %} selected {% endif %}>Others</option>
+                                           </select>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <label for="phoneForm" class="form-label">Phone No</label>
+                                        <input type="text" class="form-control" value="{{ user.phone }}" name="phoneForm" id="phoneForm">
+                                         <div class="error" id="phone"></div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <label for="cityForm" class="form-label">City</label>
+                                        <input type="text" class="form-control" value="{{ user.city }}" name="cityField" id="cityForm">
+                                        <div class="error" id="city"></div>
+                                      </div>
+
+                                      <div class="col-md-12">
+                                        <label for="aboutForm" class="form-label">About Yourself</label>
+                                        <textarea name="about" id="aboutForm" cols="40" rows="4" class="textarea form-control" placeholder="About Yourself">{{ user.about }}</textarea>
+                                        <div class="error" id="about"></div>
+                                      </div>
+                                    <div class="col-md-12">
+                                        <label for="cityField" class="form-label">Profile Photo</label>
+                                        <div class="col-sm-6" style="margin: 0px -16px;">
+                                            <input type="file" class="my-2" name="photoFile" required>
+                                        </div>
+                                    </div>
+                                        <div class="ml-2 col-sm-6">
+                                          <img src="{% if user.photo != "" %} {{ user.photo.url }}{% else %} https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREVxTYzmjozqM-fp5wzPQna37Sfsf0COciE5dcag6jhiAWqdrIIqMJzytf58AFbPVNgFU&usqp=CAU {% endif %}" id="preview" class="img-thumbnail">
+                                        </div>
+                                    </div>
+
+                                      <div class="col-12">
+                                        <button type="submit" class="registerBtn">Complete Profile</button>
+                                      </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<script>
+
+    var form = document.getElementById("completeprofile");
+
+    form.addEventListener("submit", function (event) {
+        let isValid=0;
+        const phoneForm=document.getElementById("phoneForm").value;
+        const cityForm=document.getElementById("cityForm").value;
+        const aboutForm=document.getElementById("aboutForm").value;
+
+        if (phoneForm === "" || phoneForm==null) {
+            isValid++;
+            printError("phone", "please enter phone number");
+        } else {
+            var regex = /^[a-zA-Z\s]+$/;
+            if (phoneForm.length <11) {
+                isValid++;
+                printError("phone", "phone number must be 11 digit");
+            } else {
+                printError("phone", "");
+            }
+        }
+
+        if (cityForm === "" || cityForm==null) {
+            isValid++;
+            printError("city", "please enter your city name");
+        } else {
+            var regex = /^[a-zA-Z\s]+$/;
+            if (regex.test(cityForm) === false) {
+                isValid++;
+                printError("city", "please enter your city name");
+            } else {
+                printError("city", "");
+            }
+        }
+
+        if (aboutForm === "" || aboutForm==null) {
+            isValid++;
+            printError("about", "please enter yourself");
+        } else {
+            var regex = /^[a-zA-Z\s]+$/;
+            if (regex.test(cityForm) === false) {
+                isValid++;
+                printError("about", "please enter correct formet");
+            } else {
+                printError("about", "");
+            }
+        }
+
+
+        console.log(isValid);
+        if (isValid==0) {
+            return true;
+        }
+        event.preventDefault();
+    });
+
+
+    function printError(elemId, hintMsg) {
+        document.getElementById(elemId).innerHTML = hintMsg;
+    }
+    </script>
+
+
+    <script>
+
+    $(document).on("click", ".browse", function() {
+      var file = $(this).parents().find(".file");
+      file.trigger("click");
+    });
+$('input[type="file"]').change(function(e) {
+  var fileName = e.target.files[0].name;
+  $("#file").val(fileName);
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    // get loaded data and render thumbnail.
+    document.getElementById("preview").src = e.target.result;
+  };
+  // read the image file as a data URL.
+  reader.readAsDataURL(this.files[0]);
+});
+    </script>
+{% endblock %}
+
+
+
+

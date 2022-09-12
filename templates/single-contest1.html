@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+view contest
+{% endblock %}
+{% block css %}
+.home-faq-area .faq-area .card-header [data-toggle="collapse"]:after {
+    font-family: 'fontawesome';
+    content: "";
+    float: right;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 22px;
+}
+{% endblock %}
+{% block content %}
+
+        <div class="template-preloader-rapper">
+        </div>
+
+        <div class="home-about-photo-contest-area pt-100 pb-100">
+            <div class="container">
+                <div class="row full-photocontest-area">
+					<div class="col-lg-6 col-md-12 col-sm-12 mb-md-30">
+						<div class="single-section">
+							<div class="section-img">
+								<img src="{{contest.demo_pic.url}}" alt="single Images" />
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-12 col-sm-12">
+						<h3 class="headding-title">{{ contest.title }}</h3>
+						<ul id="meta-text">
+							<li class="date"><i class="fa fa-calendar"></i>Start on : {{ contest.start_on | timesince }}</li>
+							<li class="date"><i class="fa fa-calendar" aria-hidden="true"></i>End On : {{ contest.end_on | timeuntil }}</li>
+						</ul>
+						<p class="des" style="text-align: justify;">{{ contest.details }}. </p>
+						<div class="join-details">
+							<p class="font-weight-bold">Organizer: {{ contest.post_by.username |capfirst }} </p>
+							<p class="font-weight-bold">Type: {{ contest.type |capfirst }} </p>
+							<p class="font-weight-bold">Total Join : {{ contest.joined.count }}</p>
+                            {% if is_win %}
+                            <h3 class="text-success">Photo Winner <span class="text-danger">{{ winner.username|capfirst }}</span></h3>
+                            {% endif %}
+						</div>
+                    {% if is_win == False%}
+                        {% if contest.post_by != request.user %}
+                            <div class="link-section">
+                                {% if is_joined %}
+                                    {% if is_upload == True %}
+                                    <button  class="btn btn-primary" href="" disabled>Photo Uploaded</button>
+                                     {% else %}
+                                    <a  class="btn btn-primary" href="{% url 'uploadphoto' contest.id %}">Upload Photo</a>
+                                     {% endif %}
+                                {% else %}
+                                <form method="post" action="{% url 'joincontest'%}">{% csrf_token %}
+                                    <button  class="btn btn-lg text-white" name="joinc" value="{{ contest.id }}" style="background: #d32f2f;">join now</button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+					</div>
+				</div>
+            </div>
+        </div>
+        <div class="home-faq-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 mb-md-30">
+                        <div class="faq-area">
+                            <h2>Rules & FAQ </h2>
+                            <div class="accordion" id="accordion">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h5 class="card-title">
+                                            <button class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                What is the Process of Registation?
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body">
+                                            It is a very simple task to join any contest.just click the join button and join the contest and upload your photo to the contest.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingTwo">
+                                        <h5 class="card-title">
+                                            <button class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                What is the Pre Requirements of Registation?
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                        <div class="card-body">
+                                         Your account must be verified by the admin and you must subscribe a packages of our website.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingThree">
+                                        <h5 class="card-title">
+                                            <button class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                                How can you get your Winning ammount?
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                        <div class="card-body">
+                                           If you win any contest your winning ammunt will be added to your account .You can request Withdraw and get your money to your Paypal account.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingFour">
+                                        <h5 class="card-title">
+                                            <button class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                                What is the Process of Winning?
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                                        <div class="card-body">
+                                             Only the contest organizer will select the contest winner.Contest organizer can remove anyone from the contest .
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-12">
+                        <div class="faq-image-area">
+                            <h2>Prize </h2>
+                            <h1 class="text-danger">Winner will get {{ contest.winner_ammount }} $ for winning the contest .</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="others-photo-contester-area pt-90 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="section-title">
+                            <h2>Already <span>Uploaded Photos</span></h2>
+                            <img src="{% static 'images/line.png' %}" alt="line image">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for c in contester %}
+                         <div class="col-lg-4 col-md-6 col-sm-12 mb-30">
+                        <div class="single-others-contester card">
+                            <div class="images">
+                                <img src="{{ c.photo.url }}" alt="">
+                                <div class="overley">
+                                    <ul>
+                                        <li><a class="image-popup" href="{{ c.photo.url }}"><i class="fa fa-eye"></i></a></li>
+                                        {% if is_win == False %}
+                                        {% if contest.post_by == request.user %}
+                                        <li><a href="{% url 'winner' contest.id c.id%}"><i class="fa fa-check" ></i></a></li>
+                                        <li>
+                                        <form method="post" action="{% url 'removephoto' %}">{% csrf_token %}
+                                            <input type="hidden" name="contestname" value="{{ contest.id }}">
+                                            <button class="btn" style="background: none;" name="removep" value="{{ c.id }}"><i class="fa fa-trash"></i></button>
+                                        </form>
+                                        </li>
+                                        {% endif %}
+                                    {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        <div style="background-color: #d32f2f0d!important;padding: 10px 12px;">
+                            <div class="">
+                                {% if c.author == winner %}
+                                    <h3 class="text-warning"><i class="fa fa-trophy"> </i> Winner {{ c.author.username|capfirst }}</h3>
+                                {% else %}
+                                    <h3><i class="fa fa-user text-danger"> </i>&nbsp; Photo Uploaded By : {{ c.author.username|capfirst }}</h3>
+                                {% endif %}
+                            </div>
+                            <div class="informations">
+                                <ul id="photo-love" style="display: flex;">
+                                    {% include 'users/love.html' %}
+                                    <li style="border: 1px solid #d32f2f;border-radius: 5px;padding: 0px 4px;" class="float-right"><i class="fa fa-calendar"></i> Post on : {{ c.post_on }}</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                        <div class="pagination-area">
+                            <ul>
+                                {% if contester.has_previous  %}
+                                <li><a href="?page={{ contester.previous_page_number }}"><i class="fa fa-angle-left"></i></a></li>
+                                {% endif %}
+                                <li class="active" ><a href="?page={{ contester.number }}">1</a></li>
+                                 {% if contester.has_next  %}
+                                <li><a href="?page={{ contester.next_page_number }}"><i class="fa fa-angle-right"></i></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

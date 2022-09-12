@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+@media screen and (min-width:992px) {
+    .homeimg{
+    height:300px;
+
+    }
+@media screen and (min-width:768px) {
+    .homeimg{
+    height:300px;
+
+    }
+}.alert-danger {
+    color: #ffffff;
+    background-color: #d33030;
+    font-size: 16px;
+    font-weight: 700;
+}
+{% endblock %}
+{% block content %}
+    <div class="slider-area">
+            <div class="bend niceties preview-2">
+                <div id="ensign-nivoslider" class="slides">
+                    {% for photo in sliders %}
+                        <img src="{{ photo.slider.url }}" alt="Slider Image" title="#slider-direction-{{ forloop.counter }}" />
+                    {% empty %}
+                        <img src="{% static 'images/slider/slide_1.jpg' %}" alt="" title="#slider-direction-2" />
+                    {% endfor %}
+                </div>
+                <!-- direction 2 -->
+                <div id="slider-direction-1" class="slider-direction">
+                    <div class="slider-content t-cn s-tb slider-1">
+                        <div class="title-container s-tb-c">
+                            <h1 class="title1"><span>Ultimate</span> photo contest </h1>
+                            <div class="title2">Join any contest,upload your photo and get chance to win the contest with winning prize</div>
+                            <div class="slider-botton">
+                                <ul>
+                                    <li><a href="{% url 'contesthome' %}">Join Now <i class="fa fa-angle-right"></i></a></li>
+                                    <li class="acitve"><a href="about.html">About Us <i class="fa fa-angle-right"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- direction 2 -->
+                <div id="slider-direction-2" class="slider-direction">
+                    <div class="slider-content t-cn s-tb slider-2">
+                        <div class="title-container s-tb-c">
+                            <h1 class="title1"><span>Contest</span> Create and Join Photo Context </h1>
+                            <div class="title2">Join any contest,upload your photo and get chance to win the contest with winning prize</div>
+                            <div class="title2"></div>
+                            <div class="slider-botton">
+                                <ul>
+                                    <li class="acitve"><a href="{% url 'contesthome' %}">More Post <i class="fa fa-angle-right"></i></a></li>
+                                    <li><a href="contact.html">Contact Us <i class="fa fa-angle-right"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="slider-direction-3" class="slider-direction">
+                    <div class="slider-content t-cn s-tb slider-2">
+                        <div class="title-container s-tb-c">
+                            <h1 class="title1"><span>Winner</span> Get Reward From Contest</h1>
+                            <div class="title2">Join any contest,upload your photo and get chance to win the contest with winning prize</div>
+                            <div class="title2"></div>
+                            <div class="slider-botton">
+                                <ul>
+                                    <li class="acitve"><a href="{% url 'contesthome' %}">More Post <i class="fa fa-angle-right"></i></a></li>
+                                    <li><a href="contact.html">Contact Us <i class="fa fa-angle-right"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Single Photo Contest Start Here -->
+    <div class="home-single-contest gray-bg pt-90 pb-90">
+            <div class="home-single single-photo-contest-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                             <div class="section-title">
+                                <h2>Our Running <span>Contests</span></h2>
+                            </div>                   
+                            <div class="about-content">
+                                <h2>Running Contests</h2>
+                                <ul class="home-single-slide variation">
+                                    {% for foo in contest %}
+                                    <li>
+                                        <div class="item">
+                                            <div class="about-image">
+                                                <img src="{{ foo.demo_pic.url }}"  class="homeimg" alt="">
+                                                <div class="overley">
+                                                    <h4><a>Post by : {{ foo.post_by.username }}</a></h4>
+                                                </div>
+                                            </div>
+                                            <div class="about-text">
+                                                <h3><a>{{ foo.title }}</a></h3>
+                                                <p> {{ foo.con_sample }}</p>
+                                                    <div class="countdown-section">
+														<div class="row">
+                                                            <div class="col-sm-11"><div class="CountDownTimer" data-timer="{{ foo.ConvertSecond }}"></div></div>
+														</div>
+													</div>
+                                                    <a href="{% url 'viewcontest' foo.id%}">Join Now <i class="fas fa-angle-right"></i></a>
+                                            </div>  
+                                        </div>                                  
+                                    </li>
+                                     {% empty %}
+
+                                      <div class="alert alert-danger">
+                                        There is no Running Project
+                                        </div>
+
+                                     {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+
+    <div class="project-activation-area pt-100 pb-100">
+            <div class="container">
+                <div class="ab-count">
+                    <div class="row">
+                        <!-- ABOUT-COUNTER-LIST START -->
+                        <div class="col-lg-3 col-md-3 col-sm-3  wow fadeInUp" data-wow-duration=".3s" data-wow-delay="300ms">
+                            <div class="about-counter-list">
+                                <i class="fa fa-image"></i>
+                                <h1 class="about-counter">{{ conn.count }}</h1>
+                                <p>Photos</p>
+                            </div>
+                        </div>
+                        <!-- ABOUT-COUNTER-LIST END -->
+                        <!-- ABOUT-COUNTER-LIST START -->
+                        <div class="col-lg-3 col-md-3 col-sm-3  wow fadeInUp" data-wow-duration=".7s" data-wow-delay="300ms">
+                            <div class="about-counter-list">
+                                <i class="fa fa-heart"></i>
+                                <h1 class="about-counter">{{ loved }}</h1>
+                                <p>Loved</p>
+                            </div>
+                        </div>
+                        <!-- ABOUT-COUNTER-LIST END -->
+                        <!-- ABOUT-COUNTER-LIST START -->
+                        <div class="col-lg-3 col-md-3 col-sm-3  wow fadeInUp" data-wow-duration=".9s" data-wow-delay="300ms">
+                            <div class="about-counter-list">
+                                <i class="fa fa-users"></i>
+                                <h1 class="about-counter">{{ co.count }}</h1>
+                                <p>Contests</p>
+                            </div>
+                        </div>
+                        <!-- ABOUT-COUNTER-LIST END -->
+                        <!-- ABOUT-COUNTER-LIST START -->
+                        <div class="col-lg-3 col-md-3 col-sm-3  wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="300ms">
+                            <div class="about-counter-list">
+                                <i class="fa fa-trophy"></i>
+                                <h1 class="about-counter">{{ winner }}</h1>
+                                <p>Winners </p>
+                            </div>
+                        </div>
+                        <!-- ABOUT-COUNTER-LIST END -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Home Blog Start Here -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css">
+<style>
+.demo{ background: #f8f8f8; }
+.testimonial{
+    margin: 0 20px 40px;
+}
+.testimonial .testimonial-content{
+    padding: 35px 25px 35px 50px;
+    margin-bottom: 35px;
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    position: relative;
+}
+.testimonial .testimonial-content:after{
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    position: absolute;
+    bottom: -10px;
+    left: 22px;
+    transform: rotate(45deg);
+}
+.testimonial-content .testimonial-icon{
+    width: 50px;
+    height: 45px;
+    background: #ff4242;
+    text-align: center;
+    font-size: 22px;
+    color: #fff;
+    line-height: 42px;
+    position: absolute;
+    top: 37px;
+    left: -19px;
+}
+.testimonial-content .testimonial-icon:before{
+    content: "";
+    border-bottom: 16px solid #e41212;
+    border-left: 18px solid transparent;
+    position: absolute;
+    top: -16px;
+    left: 1px;
+}
+.testimonial .description{
+    font-size: 15px;
+    font-style: italic;
+    color: #8a8a8a;
+    line-height: 23px;
+    margin: 0;
+}
+.testimonial .title{
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: #525252;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    margin: 0 0 5px 0;
+}
+.testimonial .post{
+    display: block;
+    font-size: 14px;
+    color: #ff4242;
+}
+.owl-theme .owl-controls{
+    margin-top: 20px;
+}
+.owl-theme .owl-controls .owl-page span{
+    background: #ccc;
+    opacity: 1;
+    transition: all 0.4s ease 0s;
+}
+.owl-theme .owl-controls .owl-page.active span,
+.owl-theme .owl-controls.clickable .owl-page:hover span{
+    background: #ff4242;
+}
+</style>
+    <div class="fix home-blog-area pb-90 pt-90">
+       <div class="col-lg-10 offset-lg-1 pt-5 pb-5 bg-dark text-light">
+  <div id="client-testimonial-carousel" class="carousel slide" data-ride="carousel" style="height:200px;">
+    <div class="carousel-inner" role="listbox">
+        {% for i in feedback|slice:":1" %}
+            <div class="carousel-item active text-center p-4">
+        <blockquote class="blockquote text-center">
+          <p class="mb-0"><i class="fa fa-quote-left"></i> {{ i.feedback|capfirst }}
+          </p>
+          <footer class="blockquote-footer">{{ i.user }}</footer>
+          <p class="client-review-stars">
+             {% for k in rattingLoop|slice:i.ratting %}
+            <i class="fas fa-star"></i>
+             {% endfor %}
+        </blockquote>
+      </div>
+        {% endfor %}
+
+        {% for i in feedback|slice:"1:" %}
+            <div class="carousel-item text-center p-4">
+        <blockquote class="blockquote text-center">
+          <p class="mb-0"><i class="fa fa-quote-left"></i> {{ i.feedback|capfirst }}
+          </p>
+          <footer class="blockquote-footer">{{ i.user }}</footer>
+          <p class="client-review-stars">
+             {% for k in rattingLoop|slice:i.ratting %}
+            <i class="fas fa-star"></i>
+             {% endfor %}
+          </p>
+        </blockquote>
+      </div>
+        {% endfor %}
+    </div>
+    <ol class="carousel-indicators">
+        {% for i in feedback|slice:":1" %}
+                  <li data-target="#client-testimonial-carousel" data-slide-to="0" class="active"></li>
+        {% endfor %}
+        {% for i in feedback|slice:"1:" %}
+                  <li data-target="#client-testimonial-carousel" data-slide-to="{{ forloop.counter }}"></li>
+        {% endfor %}
+
+    </ol>
+  </div>
+</div>
+
+    </div>
+{% endblock %}

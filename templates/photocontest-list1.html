@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+contest home page
+{% endblock %}
+{% block css %}
+@media screen and (min-width:992px) {
+    .contest_img{
+    height:300px;
+
+    }
+@media screen and (min-width:768px) {
+    .contest_img{
+    height:300px;
+
+    }
+}
+{% endblock %}
+{% block content %}
+   <div class="home-about-photo-contest-area pt-100 pb-100">
+       <div class="container">
+			<div class="row">
+                    {% for con in contest %}
+                        {% if con.ConvertSecond >= 0 %}
+                            <div class="col-lg-6 col-md-6 col-sm-12 mb-50">
+                                <div class="single-section card p-4 shadow-lg">
+                                    <div class="section-img">
+                                        <img src="{{ con.demo_pic.url }}" alt="single Images" style="width: 100%;" class="contest_img">
+                                    </div>
+                                    <h3 class="headding-title">{{ con.title|capfirst }}</h3>
+                                    <ul id="meta-text">
+                                        <li class="date"><i class="fa fa-calendar-check-o"></i>{{ con.start_on }}</li>To
+                                        <li class="date"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> {{ con.end_on }}</li>
+                                    </ul>
+                                    <div class="countdown-section">
+                                        <div class="row">
+                                            <div class="col-sm-11"><div class="CountDownTimer" data-timer="{{ con.ConvertSecond }}"></div></div>
+                                        </div>
+                                    </div>
+                                    <p class="des" style="text-align: justify;">{{ con.con_sample }}. </p>
+                                    <div class="link-section">
+                                        <a href="{% url 'viewcontest'  con.id %}" class="read-btn primary-btn mr-10">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+				</div>
+            <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                        <div class="pagination-area">
+                            <ul>
+                                  {% if contest.has_previous  %}
+                                    <li><a href="?page={{ contest.previous_page_number }}" ><i class="fa fa-angle-left"></i></a></li>
+                                 {% endif %}
+                                    <li class="active" ><a href="?page={{ contest.number }}">1</a></li>
+                                 {% if contest.has_next  %}
+                                    <li><a href="?page={{ contest.next_page_number }}" ><i class="fa fa-angle-right"></i></a></li>
+                                 {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+       </div>
+   </div>
+   <div class="project-activation-area pt-100 pb-100">
+            <div class="container">
+                <div class="ab-count">
+                    <div class="row">
+                        <!-- ABOUT-COUNTER-LIST START -->
+                        <div class="col-lg-3 col-md-3 col-sm-3  wow fadeInUp" data-wow-duration=".3s" data-wow-delay="300ms">
+                            <div class="about-counter-list">
+                                <i class="fa fa-image"></i>
+                                <h1 class="about-counter">{{ conn.count }}</h1>
+                                <p>Photos</p>
+                            </div>
+                        </div>
+                        <!-- ABOUT-COUNTER-LIST END -->
+                        <!-- ABOUT-COUNTER-LIST START -->
+                        <div class="col-lg-3 col-md-3 col-sm-3  wow fadeInUp" data-wow-duration=".7s" data-wow-delay="300ms">
+                            <div class="about-counter-list">
+                                <i class="fa fa-heart"></i>
+                                <h1 class="about-counter">{{ loved }}</h1>
+                                <p>Loved</p>
+                            </div>
+                        </div>
+                        <!-- ABOUT-COUNTER-LIST END -->
+                        <!-- ABOUT-COUNTER-LIST START -->
+                        <div class="col-lg-3 col-md-3 col-sm-3  wow fadeInUp" data-wow-duration=".9s" data-wow-delay="300ms">
+                            <div class="about-counter-list">
+                                <i class="fa fa-users"></i>
+                                <h1 class="about-counter">{{ co.count }}</h1>
+                                <p>Contests</p>
+                            </div>
+                        </div>
+                        <!-- ABOUT-COUNTER-LIST END -->
+                        <!-- ABOUT-COUNTER-LIST START -->
+                        <div class="col-lg-3 col-md-3 col-sm-3  wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="300ms">
+                            <div class="about-counter-list">
+                                <i class="fa fa-trophy"></i>
+                                <h1 class="about-counter">{{ winner }}</h1>
+                                <p>Winners </p>
+                            </div>
+                        </div>
+                        <!-- ABOUT-COUNTER-LIST END -->
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

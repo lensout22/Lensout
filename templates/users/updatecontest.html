@@ -1,0 +1,332 @@
+{#{% extends 'dashboard/base.html' %}#}
+{#{% load crispy_forms_tags %}#}
+{#{% block title %}#}
+{#update post blog#}
+{#{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    <style>#}
+{#    #id_details {#}
+{#    height: auto;#}
+{#    text-align: justify;#}
+{#}#}
+{#    </style>#}
+{#<div class="content">#}
+{#                <div class="container-fluid">#}
+{#                    <div class="row">#}
+{#                        <div class="col-md-8" style="margin: 0 auto;">#}
+{#                            <div class="card">#}
+{#                                <div class="card-header">#}
+{#                                    <h4 class="card-title text-center">Update Photo Contest</h4>#}
+{##}
+{#                                </div>#}
+{#                                <div class="card-body">#}
+{#                                     {% if messages %}#}
+{#                                    <ul class="messages">#}
+{#                                        {% for message in messages %}#}
+{#                                            <div class="alert alert-info col-sm-12">#}
+{#                                        <button type="button" aria-hidden="true" class="close" data-dismiss="alert">#}
+{#                                            <i class="nc-icon nc-simple-remove"></i>#}
+{#                                        </button>#}
+{#                                        <span>Post updated succesfully</span>#}
+{#                                    </div>#}
+{#                                        {% endfor %}#}
+{#                                    </ul>#}
+{#                                    {% endif %}#}
+{##}
+{#                                    <form method="post" enctype="multipart/form-data">{% csrf_token %}#}
+{##}
+{#                                        <div class="row">#}
+{#                                            <div class="col-md-12">#}
+{#                                                <div class="form-group">#}
+{#                                                    {{ form | crispy}}#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{##}
+{#                                        <button type="submit" class="btn btn-info btn-fill pull-right col-sm-12">Update Post</button>#}
+{#                                        <div class="clearfix"></div>#}
+{#                                    </form>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#{% endblock %}#}
+
+
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+update contest
+{% endblock %}
+{% block css %}
+        #snackbar {
+          visibility: hidden;
+          min-width: 250px;
+          margin-left: -125px;
+          background-color: green;
+          color: #fff;
+          border-radius:10px;
+          text-align: center;
+          padding: 16px;
+          position: fixed;
+          z-index: 1;
+          left: 80%;
+          top: 30px;
+          font-size: 17px;
+        }
+
+        #snackbar.show {
+          visibility: visible;
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+          from {top: 0; opacity: 0;}
+          to {top: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+          from {top: 0; opacity: 0;}
+          to {top: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+          from {top: 30px; opacity: 1;}
+          to {top: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+          from {top: 30px; opacity: 1;}
+          to {top: 0; opacity: 0;}
+        }
+    .file {
+      visibility: hidden;
+      position: absolute;
+    }
+    .error{
+    color:red;
+    }
+{% endblock %}
+{% block content %}
+ <div class="content">
+     <div class="container-fluid">
+          <div class="d-flex justify-content-center align-items-center">
+               <div class="col-md-8">
+                   <form method="post" action="" id="addContest" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="card">
+                             <div class="card-header">
+                                 <h4 class="card-title">Update Photo Contest</h4>
+                             </div>
+                             <div>
+
+                                    {% for message in messages %}
+                                        {% if message %}
+                                            <div id="snackbar" class="alert alert-success">{{ message }}</div>
+                                           <script>
+                                              var x = document.getElementById("snackbar");
+                                              x.className = "show";
+                                              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                                           </script>
+                                        {% endif %}
+                                    {% endfor %}
+                             </div>
+                             <div class="card-body">
+                                  <div class="row px-2">
+                                      <div class="col-md-12">
+                                          <label for="titleContest">Title</label>
+                                          <input type="text" class="form-control" name="titleContest" id="titleContest" value="{{ contest.title }}">
+                                           <div class="error" id="title"></div>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label for="startDate">Start Date</label>
+                                          <input type="datetime-local" class="form-control"  name="startDate" min="{{ contest.start_on|date:'Y-m-d' }}T{{ contest.start_time|time:"h:i" }}" id="startDate" value="{{ contest.start_on|date:'Y-m-d' }}T{{ contest.start_time|time:"h:i" }}" >
+                                          <div class="error" id="startdate"></div>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label for="endDate">End Date</label>
+                                          <input type="datetime-local" class="form-control" name="endDate" min="2022-07-30T08:30" value="{{ contest.end_on|date:'Y-m-d' }}T{{ contest.end_time|time:"h:i" }}" id="endDate" >
+                                          <div class="error" id="enddate"></div>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label for="winningAmount">Wining Amount</label>
+                                          <input type="text" class="form-control" name="winningAmount" value="{{ contest.winner_ammount|floatformat:"0" }}" id="winningAmount">
+                                          <div class="error" id="amount"></div>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label>Contest Type</label>
+                                          <select class="form-control" name="contestType" required>
+                                              <option value="free" {% if contest.type == "free" %} selected {% endif %}>Free</option>
+                                              <option value="paid" {% if contest.type == "paid" %} selected {% endif %}>Paid</option>
+                                          </select>
+                                      </div>
+                                      <div class="col-md-12">
+                                          <div class="form-group">
+                                              <label>Contest Details</label>
+                                              <textarea rows="6" cols="80" name="details" id="details" class="form-control" style="text-align: justify;height: auto;">{{ contest.details }}</textarea>
+                                              <div class="error" id="cdetails"></div>
+                                          </div>
+                                      </div>
+
+                                       <div class="col-md-12">
+                                            <label for="DemoPhoto" class="form-label">Demo Photo</label>
+                                            <div class="col-sm-6" style="margin: 0px -16px;">
+                                                <input type="file" class="my-2" name="photoFile" value="{{ contest.demo_pic.url }}" id="photoFile">
+                                                <div class="error" id="photo"></div>
+                                            </div>
+                                       </div>
+
+                                        <div class="col-sm-6">
+                                          <img src="{{ contest.demo_pic.url }}" id="preview" class="img-thumbnail" alt="Selected Photo Will show here">
+                                        </div>
+                                  </div>
+
+                                  <button type="submit" class="btn btn-info btn-fill pull-right">Update Contest</button>
+                                  <div class="clearfix"></div>
+                             </div>
+                        </div>
+                   </form>
+               </div>
+          </div>
+     </div>
+</div>
+<script>
+    var form = document.getElementById("addContest");
+    form.addEventListener("submit", function (event) {
+        let isValid=0;
+        const titleContest=document.getElementById("titleContest").value;
+        const startDate=document.getElementById("startDate").value;
+        const endDate=document.getElementById("endDate").value;
+        const winningAmount=document.getElementById("winningAmount").value;
+        const details=document.getElementById("details").value;
+        const photoFile=document.getElementById("photoFile").value;
+
+        if (titleContest === "" || titleContest==null) {
+            isValid++;
+            printError("title", "please enter contest title");
+        } else {
+            var regex = /^[a-zA-Z\s]+$/;
+            if (regex.test(titleContest) === false ) {
+                isValid++;
+                printError("title", "contest title not allow special character");
+            }
+            if (titleContest.length < 20 ) {
+                isValid++;
+                printError("title", "contest title must be 20 character");
+            } else {
+                printError("title", "");
+            }
+        }
+
+        if (startDate === "" || startDate==null) {
+            isValid++;
+            printError("startdate", "please select start date time");
+        } else{
+            printError("startdate", "");
+        }
+
+        if (endDate === "" || endDate==null) {
+            isValid++;
+            printError("enddate", "please select end date time");
+        } else{
+            printError("enddate", "");
+        }
+        if (winningAmount === "" || winningAmount==null) {
+            isValid++;
+            printError("amount", "please enter winning amount");
+        } else{
+             var regex = /^[0-9]+$/;
+            if (regex.test(winningAmount) === false ) {
+                isValid++;
+                printError("amount", "enter correct amount format");
+            }
+            else {
+                printError("amount", "");
+            }
+        }
+        if (details === "" || details==null) {
+            isValid++;
+            printError("cdetails", "please enter contest details");
+        } else{
+            printError("cdetails", "");
+        }
+
+        var allowed_extensions = new Array("jpg","png");
+        var file_extension = photoFile.split('.').pop().toLowerCase();
+        if (photoFile === "" || photoFile==null) {
+            printError("photo", "");
+        } else{
+            let x=0;
+            for(var i = 0; i < allowed_extensions.length; i++)
+            {
+                console.log(allowed_extensions[i]);
+                if(allowed_extensions[i] === file_extension)
+                {
+                    printError("photo", "");
+                    x=1;
+                }
+            }
+            if (x===0){
+                    isValid++;
+                    printError("photo", "select jpg or png image format");
+                }
+
+        }
+
+
+        if (isValid==0) {
+            return true;
+        }
+        event.preventDefault();
+    });
+
+
+    function printError(elemId, hintMsg) {
+        document.getElementById(elemId).innerHTML = hintMsg;
+    }
+
+    // Use Javascript
+    var today = new Date();
+    var dd = today.getDate();
+    var dd_1 = today.getDate()+1;
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+    var time="T"+today.getHours()+":"+today.getMinutes();
+    if(dd<10){
+      dd='0'+dd
+    }
+    if(mm<10){
+      mm='0'+mm
+    }
+
+    today = yyyy+'-'+mm+'-'+dd+time;
+    tommorow = yyyy+'-'+mm+'-'+dd_1+time;
+    console.log(today);
+    document.getElementById("startDate").setAttribute("min", today);
+    document.getElementById("endDate").setAttribute("min", tommorow);
+
+
+    $(document).on("click", ".browse", function() {
+      var file = $(this).parents().find(".file");
+      file.trigger("click");
+    });
+
+    $('input[type="file"]').change(function(e) {
+      var fileName = e.target.files[0].name;
+      $("#file").val(fileName);
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("preview").src = e.target.result;
+      };
+      // read the image file as a data URL.
+      reader.readAsDataURL(this.files[0]);
+    });
+
+    </script>
+
+{% endblock %}

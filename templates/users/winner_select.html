@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+winner selection
+{% endblock %}
+
+{% block content %}
+<div class="shop-page-area single-product-page pt-100 pb-70">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-8 col-sm-12" style="margin: 0 auto;">
+                        <div class="single-product-area">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-12">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content hidden-sm">
+                                        <div class="product-picture" id="product-1">
+                                            <a class="fancybox product-gallery-img-1 active" data-fancybox-group="group">
+                                                <img src="{{ photomaterial.photo.url }}" alt="single Product Image">
+                                                <p class="text-success bg-warning p-2 font-weight-bold" style="text-align: center;">Winning image</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-12">
+                                    <div class="product-details">
+                                        <h3>{{contest.title }}</h3>
+                                        <div class="price">
+                                            <span>post by : {{ contest.post_by.username|capfirst | capfirst }}</span><br>
+                                            <span>winning amount : ${{ contest.winner_ammount }}</span>
+                                        </div>
+                                        <h3 class="text-primary">Winner Info</h3>
+                                         <div class="price">
+                                       <span>Winner Name : {{ photomaterial.author.username | capfirst }}</span><br>
+                                        <span><i class="fa fa-heart text-primary"></i> {{ photomaterial.love.count }}</span>
+                                         </div>
+
+                                    </div>
+                                    <form method="post">{% csrf_token %}
+                                        <input type="hidden" name="data" value="data">
+                                        <input type="submit" value="Declare Winner" class="btn btn-primary">
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

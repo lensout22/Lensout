@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+blog home page
+{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block content %}
+        <div class="blog-page-area pt-100 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-12 mb-sm-30">
+                        <div class="row">
+                        {% if blogpost %}
+                            {% for blog in blogpost %}
+                            <div class="col-lg-6 col-md-6 col-sm-12 mb-30">
+                                <div class="single-blog-slide">
+                                    <div class="images">
+                                        <a href="#"><img src="{{ blog.photo.url }}" style="height: 290px;" alt=""></a>
+                                        <span>{{blog.post_on | date }}</span>
+                                        <div class="overley">
+                                            <ul>
+                                                <li><a class="image-popup" href="{{ blog.photo.url }}"><i class="fa fa-eye"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="blog-informations">
+                                        <ul>
+                                            <li><i class="fa fa-user"></i> {{ blog.post_by.full_name }}</li>
+                                            <li><i class="fa fa-eye"></i> {{ blog.total_View }}</li>
+                                            <li><i class="fa fa-comments"></i> {{ blog.count_comment }} Comments</li>
+                                        </ul>
+                                        <div class="blog-details">
+                                            <h3><a href="{% url 'viewpost' blog.id %}">{{ blog.title }}</a></h3>
+                                            <p>{{ blog.sample }} ....</p>
+                                            <div>
+                                                <a href="{% url 'viewpost' blog.id %}" style="
+                                                color: black;
+                                                font-weight: 800;
+                                                display: block;"
+                                                >Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-sm-10 p-4">
+                             <h3 class="text-danger">No Result Found</h3>
+                            </div>
+
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                        <div class="sidebar-area">
+                            <div class="single-sidebar">
+                                <h2>SEARCH</h2>
+                                <form class="sidebar-search" method="get">
+                                    <input type="text"  name="q" value="{{ request.GET.q }}" placeholder="Search Here...">
+                                    <span>
+                                  <button type="submit"><i class="fa fa-search"></i></button> 
+                                </span>
+                                </form>
+                            </div>
+                            <div class="single-sidebar">
+                                <h2>Trending Post</h2>
+                                <div class="sidebar-recent-post">
+                                    {% for tp in trend %}
+                                    <div class="media single-post">
+                                        <div class="pull-left">
+                                            <a href="#">
+                                                <img class="media-object" src="{{ tp.photo.url }}" alt="post">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="posted-date">
+                                                <a href="#">{{ tp.post_on }}</a>
+                                            </div>
+                                            <a href="{% url 'viewpost' tp.id %}" style="color: black;font-weight: bold;">{{ tp.title }}</a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                        <div class="pagination-area">
+                            <ul>
+                                  {% if blogpost.has_previous  %}
+                                <li><a href="?page={{ blogpost.previous_page_number }}" ><i class="fa fa-angle-left"></i></a></li>
+                                 {% endif %}
+                                <li class="active" ><a href="?page={{ blogpost.number }}">1</a></li>
+                             {% if blogpost.has_next  %}
+                                <li><a href="?page={{ blogpost.next_page_number }}" ><i class="fa fa-angle-right"></i></a></li>
+                             {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

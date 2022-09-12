@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="">
+    <head>
+        <!-- meta tag -->
+        <meta charset="utf-8">
+        <title>{% block title %}
+        Photo Contest
+        {% endblock %}</title>
+        <meta name="description" content="">
+        <!-- responsive tag -->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/fav.png' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/fontawesome.min.css' %}">
+
+        <!-- animate css -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
+        <!-- jquery-ui.min css -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
+        <!-- meanmenu css -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/meanmenu.min.css' %}">
+        <!-- owl.carousel css -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.css' %}">
+        <!-- magnific popup css -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/magnific-popup.css' %}">
+        <!-- nivo slider CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'inc/custom-slider/css/nivo-slider.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'inc/custom-slider/css/preview.css' %}">
+        <!-- lightbox css -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/lightbox.min.css' %}">
+		<!-- TimeCircles css -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/TimeCircles.css' %}">
+        <!-- style css -->
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+        <!-- responsive css -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}">
+        <!-- modernizr css -->
+        <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
+        <script src="{% static 'jquery-3.5.1.js' %}"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'ajax.js' %}"></script>
+
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <style>
+            {% block css %}
+
+            {% endblock %}
+        .preview-2 .nivoSlider .nivo-directionNav a.nivo-prevNav {
+            left: 0px;
+            display: none;
+        }
+        .preview-2 .nivoSlider .nivo-directionNav a.nivo-nextNav {
+            right: 50px;
+            font-size: 0;
+            display: none;
+        }
+        </style>
+
+    </head>
+    <body class="home">
+        <!--Preview area start here-->
+            <div class="template-preloader-rapper">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+ 
+        <header>
+            <div class="header-top-area hidden-sm">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="header-top-left">
+                                <ul>
+                                    <li><a href="tel:+985-2356-14566">Welcome </a></li>
+                                    {% if request.user.is_authenticated %}
+                                    <li> {{ request.user.full_name }}</li>
+                                    {% else %}
+                                    <li>guest</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="right-side-tool text-right">
+                                <div class="social-media-area">
+                                    <ul>
+                                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="header-top-right">
+                                    <ul>
+                                        {% if request.user.is_authenticated %}
+                                        <li><i class="fa fa-sign-out"></i><a href="{% url 'logout' %}">Log Out</a></li>
+                                        {% else %}
+                                        <li><i class="fa fa-key"></i><a href="{% url 'login' %}">Login</a></li>
+                                        <li><i class="fa fa-user"></i><a href="{% url 'signup' %}">Registration</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-middle-area" id="sticky">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <div class="logo-area">
+                                <a href="{% url 'home' %}" style="text-transform:capitalize;">LENSOUT</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                            <div class="main-menu">
+                                <nav>
+                                    <ul>
+                                        <li class="active"><a href="{% url 'home' %}">Home</a></li>
+                                        <li><a href="{% url 'aboutme' %}">About Me</a></li>
+                                        <li><a href="{% url 'galary' %}">Gallery</a></li>
+                                        <li><a href="{% url 'contesthome' %}">Contest</a></li>
+                                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide Menu Section Start Here -->
+            <div class="mobile-menu-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mobile-menu">
+                                <nav id="dropdown">
+                                    <ul>
+                                        <li class="active"><a href="{% url 'home' %}">Home</a></li>
+                                        <li><a href="{% url 'aboutme' %}">About Me</a></li>
+                                        <li><a href="{% url 'galary' %}">Gallery</a></li>
+                                         <li><a href="{% url 'contesthome' %}">Contest</a></li>
+                                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+       
+        {% block content %}
+        
+        {% endblock %}
+
+        <footer>
+            <div class="footer-bottom-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="footer-bottom">
+                                <p> &copy; Copyrights 2022. All rights reserved by Lensout.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer Area Section End Here -->
+
+        <!-- jquery latest version -->
+        <script src="{% static 'js/vendor/jquery-1.12.0.min.js' %}"></script>
+        <!-- bootstrap js -->
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <!-- owl.carousel js -->
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <!-- owl.carousel js -->
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <!-- meanmenu js -->
+        <script src="{% static 'js/jquery.meanmenu.js' %}"></script>
+        <!-- jquery-ui js -->
+        <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+        <!-- wow js -->
+        <script src="{% static 'js/wow.min.js' %}"></script>
+        <!-- jquery.counterup js -->
+        <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
+        <script src="{% static 'js/waypoints.min.js' %}"></script>
+        <!-- jquery light box -->
+        <script src="{% static 'js/lightbox.min.js' %}"></script>
+        <!-- isotope.pkgd.min js -->
+        <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+        <!-- imagesloaded.pkgd.min js -->
+        <script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+        <!-- magnific popup -->
+        <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+        <!-- jQuery MixedIT Up -->
+        <script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
+        <!-- Counter Down js -->
+        <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
+        <!-- Nivo slider js -->
+        <script src="{% static 'inc/custom-slider/js/jquery.nivo.slider.js' %}"></script>
+        <script src="{% static 'inc/custom-slider/home.js' %}"></script>
+        <!-- jQuery Multistep form -->
+        <script src="{% static 'js/multi_step_form.js' %}"></script>
+        <!-- jquery.fancybox.pack js -->
+        <script src="{% static 'inc/fancybox/jquery.fancybox.pack.js' %}"></script>
+        <!-- plugins js -->
+        <script src="{% static 'js/plugins.js' %}"></script>
+        <!-- jquery weave effects -->
+        <script src="{% static 'js/waves.js' %}"></script>
+		<!-- TimeCircles js -->
+        <script src="{% static 'js/TimeCircles.js' %}"></script>
+        <!-- main js -->
+        <script src="{% static 'js/main.js' %}"></script>
+
+    <script>
+    $(document).ready(function () {
+         $(".reply-btn").click(function () {
+
+          $(this).parent().parent().next(".replied-comments").fadeToggle();
+        });
+        $(".event-reply-btn").click(function () {
+
+          $(this).parent().parent().next(".event-replied-comments").fadeToggle();
+        });
+
+         $(document).on("submit", ".event-comment-form", function (event) {
+          console.log("event comment");
+          event.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: $(this).attr("action"),
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (response) {
+              $(".blog-comment-section").html(response["form"]);
+              $("textarea").val("");
+              $(".event-reply-btn").click(function () {
+                $(this)
+                  .parent()
+                  .parent()
+                  .next(".event-replied-comments")
+                  .fadeToggle();
+              });
+              $("textarea").val("");
+            },
+            error: function (rs, e) {
+              console.log(rs.responseText);
+            },
+          });
+        });
+         $(document).on("submit", ".event-reply-form", function (event) {
+          console.log("ok");
+          event.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: $(this).attr("action"),
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (response) {
+              $(".blog-comment-section").html(response["form"]);
+              $("textarea").val("");
+              $(".event-reply-btn").click(function () {
+                $(this)
+                  .parent()
+                  .parent()
+                  .next(".event-replied-comments")
+                  .fadeToggle();
+              });
+              $("textarea").val("");
+            },
+            error: function (rs, e) {
+              console.log(rs.responseText);
+            },
+          });
+        });
+
+    });
+    </script>
+
+
+    </body>
+</html>

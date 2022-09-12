@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}
+upload photo
+{% endblock %}
+{% block content %}
+<div class="container-fluid" style="margin-top: 10%;margin-bottom: 4%;">
+
+    <div class="col-md-4"style="margin: 0 auto;">
+        <h1 class="text-center text-success">Upload Photo TO Contest</h1>
+        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="mb-3">
+                  <label for="ct" class="form-label">Contest Title</label>
+                  <input type="text" class="form-control" id="ct" value="{{ contest.title }}" readonly>
+            </div>
+
+            <div class="mb-3">
+                 <label for="DemoPhoto" class="form-label">Demo Photo</label><br>
+                    <input type="file" class="my-2" name="photo" id="photoFile">
+                    <div class="error" id="photo"></div>
+            </div>
+
+            <div class="mb-3">
+                <img src="" id="preview" class="img-thumbnail" alt="Selected Photo Will show here">
+            </div>
+
+            <button type="submit" class="brn btn-primary w-100"><i class="fa fa-upload"></i>Upload Now</button>
+        </form>
+    </div>
+</div>
+
+<script>
+$(document).on("click", ".browse", function() {
+      var file = $(this).parents().find(".file");
+      file.trigger("click");
+    });
+
+    $('input[type="file"]').change(function(e) {
+      var fileName = e.target.files[0].name;
+      $("#file").val(fileName);
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("preview").src = e.target.result;
+      };
+      // read the image file as a data URL.
+      reader.readAsDataURL(this.files[0]);
+    });
+</script>
+{% endblock %}

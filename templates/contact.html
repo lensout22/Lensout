@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block title %}
+contract us page
+{% endblock %}
+{% block css %}
+    .error{
+    color:red;
+    }
+{% endblock %}
+{% block content %}
+   <div class="contact-us-page-area pt-100 pb-100">
+        <div class="container">
+            <div class="contact-section row pt-50 ">
+
+                 <div class=" col-md-6 card mx-auto p-4 shadow p-3 mb-5 bg-white rounded shadow-md">
+                      {% for message in messages %}
+                             {%if "add_contact" in message.tags %}
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                      <strong>{{ message }}</strong>
+                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                             {% endif %}
+                      {% endfor %}
+
+                        <h4>Contact Us</h4>
+                        <div id="form-messages"></div>
+
+                        <form id="contact-form" method="post">{% csrf_token %}
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <input name="name" id="name" type="text" class="form-control" placeholder="Enter your name">
+                                             <div class="error" id="nameField"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <input name="email" id="email" type="email" class="form-control" placeholder="enter your email">
+                                            <div class="error" id="emailField"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <input name="phone" id="phone" type="text" class="form-control" placeholder="enter your phone ex:+8801817662233">
+                                            <div class="error" id="phoneField"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <input name="subject" id="subject" type="text" class="form-control" placeholder="enter your subject">
+                                            <div class="error" id="subjectField"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <textarea name="comment" id="comment" cols="40" rows="6" class="textarea form-control" placeholder="Your Message"></textarea>
+                                            <div class="error" id="commentField"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <button class="btn btn-success" name="Submit" type="submit">Send Message <i class="fa fa-angle-right"></i> </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+            </div>
+        </div>
+   </div>
+
+ <script>
+    var form = document.getElementById("contact-form");
+    form.addEventListener("submit", function (event) {
+        let isValid=0;
+        const name=document.getElementById("name").value;
+        const email=document.getElementById("email").value;
+        const phone=document.getElementById("phone").value;
+        const subject=document.getElementById("subject").value;
+        const comment=document.getElementById("comment").value;
+
+        if (name === "" || name==null) {
+            isValid++;
+            printError("nameField", "please enter your name");
+        } else {
+            var regex = /^[a-zA-Z\s]+$/;
+            if (regex.test(name) === false ) {
+                isValid++;
+                printError("nameField", "enter valid name");
+            }
+            else {
+                printError("nameField", "");
+            }
+        }
+
+        if (email === "" || email==null) {
+            isValid++;
+            printError("emailField", "please enter your email");
+        } else {
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (regex.test(email) === false ) {
+                isValid++;
+                printError("emailField", "enter valid email");
+            }
+            else {
+                printError("emailField", "");
+            }
+        }
+
+
+        if (phone === "" || phone==null) {
+            isValid++;
+            printError("phoneField", "please enter your subject");
+        } else {
+            var regex = /^([+]\d{2})?\d{11}$/;
+            if (regex.test(phone) === false ) {
+                isValid++;
+                printError("phoneField", "enter valid subject");
+            }
+            else {
+                printError("phoneField", "");
+            }
+        }
+
+        if (subject === "" || subject==null) {
+            isValid++;
+            printError("subjectField", "please enter your subject");
+        } else {
+            var regex = /^[a-zA-Z\s]+$/;
+            if (regex.test(subject) === false ) {
+                isValid++;
+                printError("subjectField", "enter valid subject");
+            }
+            else {
+                printError("subjectField", "");
+            }
+        }
+
+        if (comment === "" || comment==null) {
+            isValid++;
+            printError("commentField", "please enter your message");
+        } else {
+           printError("commentField", "");
+        }
+
+
+
+        if (isValid==0) {
+            return true;
+        }
+        event.preventDefault();
+    });
+
+
+    function printError(elemId, hintMsg) {
+        document.getElementById(elemId).innerHTML = hintMsg;
+    }
+    </script>
+{% endblock %}
+

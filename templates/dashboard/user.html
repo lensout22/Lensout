@@ -1,0 +1,164 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}
+    User Profile Page
+ {% endblock %}
+{% block css %}
+        #snackbar {
+          visibility: hidden;
+          min-width: 250px;
+          margin-left: -125px;
+          background-color: green;
+          color: #fff;
+          border-radius:10px;
+          text-align: center;
+          padding: 16px;
+          position: fixed;
+          z-index: 1;
+          left: 80%;
+          top: 30px;
+          font-size: 17px;
+        }
+
+        #snackbar.show {
+          visibility: visible;
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+          from {top: 0; opacity: 0;}
+          to {top: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+          from {top: 0; opacity: 0;}
+          to {top: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+          from {top: 30px; opacity: 1;}
+          to {top: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+          from {top: 30px; opacity: 1;}
+          to {top: 0; opacity: 0;}
+        }
+{% endblock %}
+{% block content %}
+
+
+ <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-8">
+                          <form method="post">{% csrf_token %}
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Edit Profile</h4>
+                                </div>
+                                <div>
+                                <div id="snackbar" class="alert alert-success">Profile Update successfully</div>
+                                {% for message in messages %}
+                                        {% if message %}
+                                                <script>
+                                             var x = document.getElementById("snackbar");
+                                              x.className = "show";
+                                              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                                            </script>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="card-body">
+                                        <div class="row px-2">
+                                            <div class="col-md-6">
+                                               <label>First Name</label>
+                                               <input type="text" class="form-control" name="fname" value="{{request.user.first_name}}">
+                                            </div>
+                                            <div class="col-md-6">
+                                               <label>Last Name</label>
+                                               <input type="text" class="form-control"  name="lname" value="{{request.user.last_name}}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>City</label>
+                                                <input type="text" class="form-control" name="city" value="{{request.user.profile.city}}">
+                                            </div>
+                                            <div class="col-md-6">
+                                               <label>Phone</label>
+                                                <input type="text" class="form-control" name="phone" value="{{request.user.profile.phone}}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                    <label>Gender</label>
+                                                    <select class="form-control" name="gender" required>
+                                                       <option name="Male"   {% if request.user.profile.gender == "Male" %} selected {% endif %}>Male</option>
+                                                       <option name="Female" {% if request.user.profile.gender == "Female" %} selected {% endif %}>Female</option>
+                                                       <option name="Others" {% if request.user.profile.gender == "Others" %} selected {% endif %}>Others</option>
+                                                   </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                              <label for="genderField" class="form-label">User Type</label>
+                                               <select class="form-control" name="role" required>
+                                                   <option value="p" {% if request.user.profile.role == "p" %} selected {% endif %}>photographer</option>
+                                                   <option value="c" {% if request.user.profile.role == "c" %} selected {% endif %}>contest organizer</option>
+                                               </select>
+                                          </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>About Me</label>
+                                                    <textarea rows="6" cols="80" name="about" class="form-control" style="text-align: justify;height: auto;">{{ request.user.profile.about }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                                        <div class="clearfix"></div>
+
+                                </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-user">
+                                <div class="card-image">
+                                    <img src="{% static 'images/photo/1.jpg' %}" alt="...">
+                                </div>
+                                <div class="card-body">
+                                    <div class="author">
+                                        <a>
+                                            <img class="avatar border-gray"  src="{{ request.user.profile.photo.url }}" alt="...">
+                                            <h5 class="title">{{ request.user.full_name }}</h5>
+                                        </a>
+                                        <b class="description">
+                                            Username : {{ request.user }}
+                                        </b>
+                                        <b class="description"><br>
+                                            Type : {% if request.user.profile.role == "c"  %} Contest Organizer{% else %} Photographer{% endif %}
+                                        </b>
+                                        <h5 class="description">
+                                            Balance : {{ request.user.profile.balance }}
+                                        </h5>
+                                    </div>
+                                    <form method="post" enctype="multipart/form-data" action="{% url 'photoupdate' %}">{% csrf_token %}
+                                         <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Photo</label>
+                                                    <input type="file" name="photo" class="form-control" required>
+                                                </div>
+                                            </div>
+                                        <button type="submit" class="btn btn-info btn-fill pull-right">Update Photo</button>
+                                    </form>
+                                </div>
+                                <hr>
+                                <div class="button-container mr-auto ml-auto py-2">
+                                     Last Login  {{ request.user.last_login }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+

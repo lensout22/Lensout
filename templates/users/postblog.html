@@ -1,0 +1,65 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}
+post blog
+{% endblock %}
+{% block content %}
+<div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-8" style="margin: 0 auto;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title text-center">Add a Blog Post</h4>
+
+                                </div>
+                                <div class="card-body">
+                                     {% if messages %}
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                            <div class="alert alert-info col-sm-12">
+                                        <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                            <i class="nc-icon nc-simple-remove"></i>
+                                        </button>
+                                        <span>Data Saved ,please wait for admin approval</span>
+                                    </div>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+
+                                    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-12 pr-1">
+                                                <div class="form-group">
+                                                    <label>Post Title</label>
+                                                    <input type="text" class="form-control" name="title" placeholder=""maxlength="150" style="background: #28178a17;" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Demo Photo</label>
+                                                    <input type="file" class="form-control" name="photo" style="background: #28178a17;" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>About Me</label>
+                                                    <textarea rows="6" style="background: #28178a17;height: auto;" cols="80" class="form-control"name="description" placeholder="Here can be your description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-info btn-fill pull-right col-sm-12">Add Post</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}
+blog post lists
+{% endblock %}
+{% block content %}
+<div class="col-md-12">
+                            <div class="card strpied-tabled-with-hover">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Photo Contest List's</h4>
+                                </div>
+                                <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <tr><th>No</th>
+                                            <th>Photo</th>
+                                            <th>Title</th>
+                                            <th>Winning Amount</th>
+                                            <th>Total Joined</th>
+                                            <th style="width: 100%;">Actions</th>
+                                        </tr></thead>
+                                        <tbody>
+                                        {% for b in contest %}
+                                           <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>
+                                                    <img src="{{ b.demo_pic.url }}" width="60px" height="40px">
+                                                </td>
+                                                <td>{{ b.title }}</td>
+                                                <td>{{ b.winner_ammount }}</td>
+                                                <td>{{b.joined.count}}</td>
+                                                <td>
+                                                    <button data-toggle="modal" value="{{ b.id }}" data-target="#deletec"><i class="fa fa-trash text-danger"></i></button>&nbsp;&nbsp;&nbsp;
+                                                    <a class="btn btn-sm" href="{% url 'viewcontest' b.id %}"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
+                                                    <a class="btn btn-sm" href="{% url 'updatecontest' b.id %}"><i class="fa fa-refresh"></i></a>
+                                                    <a></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $("button").click(function() {
+    var fired_button = $(this).val();
+    document.getElementById("delc").value = fired_button;
+
+});
+</script>
+<div class="modal fade" id="deletec" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                  <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                      <div class="modal-body">
+                                                        <form  action="{% url 'deletecontest' %}" method="post">{% csrf_token %}
+
+                                                              <h3 class="text-center text-danger">Delete Post</h3><br>
+                                                              <p class="text-center text-success">Are you sure you want to delete your post?</p>
+                                                                <input name="delc" id="delc" value="" type="hidden">
+                                                              <div class="clearfix text-center">
+                                                                <button type="button"data-dismiss="modal" class="cancelbtn btn btn-success">Cancel</button>
+                                                                <button type="submit" class="deletebtn btn btn-danger">Delete</button>
+                                                              </div>
+
+                                                          </form>
+                                                      </div>
+
+                                                    </div>
+                                                  </div>
+                                                </div>
+{% endblock %}

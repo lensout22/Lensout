@@ -1,0 +1,8 @@
+<div>
+  <form method="post" action="{% url 'contestlove' %}" class="float-left">{% csrf_token %}
+    <input type="hidden" name="pho" value="{{ contest.id }}">
+<button  class="btn btn-light" type="submit" name="love" id="love" value="{{ c.id }}" style="border: 1px solid #d32f2f;background: none;margin-right: 12px;">
+    <li><i class="fa fa-heart"></i> {{c.love.count}}</li></button>
+</form>
+</div>
+

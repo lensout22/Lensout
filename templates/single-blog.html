@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+view Blog post
+{% endblock %}
+
+{% block content %}
+        <div class="single-blog-page-area pt-100 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-12">
+                        <div class="single-news-page">
+                            <div class="news-featured-image">
+                                <a href="#ml"><img src="{{ post.photo.url }}" alt="news"></a>
+                            </div>
+                            <h3><a>{{ post.title }}</a></h3>
+                            <ul>
+                                <li><span>by</span> {{ post.post_by.full_name }} |</li>
+                                <li><span>{{ post.views.count }}</span> <i class="fa fa-eye"></i> |</li>
+                                <li><span>post date</span> {{ post.post_on | timesince }}</li>
+                            </ul>
+                            <div class="single-blog-content">
+                                <p style="text-align: justify;">
+                                {{ post.describe }}
+                                </p>
+                            </div>
+                            <div class="row content-info">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="blog-content-tag">
+                                        <ul>
+
+                                            <li id="reaction-section">
+                                                {% include 'users/reacrtion-section.html' %}
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 text-right">
+                                    <div class="blog-content-share-social-icons">
+                                        <ul>
+                                            <li> <span>Share: </span> </li>
+                                            <li><a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-facebook"></i></a></li>
+                                            <li><a href="https://twitter.com/home?status={{share_string}}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{post.title}}&summary={{share_string}}&source={{request.build_absolute_uri}}"  target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row author-post">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="about-author-post">
+                                        <h2>About Post Author</h2>
+                                        <div class="single-author-post">
+                                            <div class="box-grid">
+                                                <a class="pull-left" href="#">
+                                                    <img src="{{ post.post_by.profile.photo.url }}"
+                                                         style="border-radius: 50%;width: 60px;height: 60px;padding: 3px;"
+
+                                                         alt="">
+                                                </a>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">{{ post.post_by.full_name }}</h4>
+                                                    <p style="text-align: justify;">{{ post.post_by.profile.about }}.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row author-comment">
+                                <div class="col-lg-12 col-md-12 col-sm-12 blog-comment-section">
+                                    {% include 'users/comment-section.html' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12">
+                        <div class="sidebar-area">
+                            <div class="single-sidebar">
+                                <h2>Popular Posts</h2>
+                                <div class="sidebar-recent-post">
+                                    {% for foo in popular %}
+                                    <div class="media single-post">
+                                        <div class="pull-left">
+                                            <a href="#">
+                                                <img class="media-object" src="{{ foo.photo.url }}" alt="post">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="posted-date">
+                                                <a href="#">{{ foo.post_on|date }}</a>
+                                            </div>
+                                            <a href="{% url 'viewpost' foo.id %}" style="color: black;font-weight: bold;">{{ foo.title }}</a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+

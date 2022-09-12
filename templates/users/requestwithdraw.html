@@ -1,0 +1,156 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% block title %}
+payment request
+{% endblock %}
+{% block css %}
+
+#comm{
+    border:2px solid slategrey;
+    padding:7pxl
+    margin:10px;
+    font-size:15px;
+    }
+
+        #snackbar {
+          visibility: hidden;
+          min-width: 250px;
+          margin-left: -125px;
+          background-color: green;
+          color: #fff;
+          border-radius:10px;
+          text-align: center;
+          padding: 16px;
+          position: fixed;
+          z-index: 1;
+          left: 80%;
+          top: 30px;
+          font-size: 17px;
+        }
+
+        #snackbar.show {
+          visibility: visible;
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+          from {top: 0; opacity: 0;}
+          to {top: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+          from {top: 0; opacity: 0;}
+          to {top: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+          from {top: 30px; opacity: 1;}
+          to {top: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+          from {top: 30px; opacity: 1;}
+          to {top: 0; opacity: 0;}
+        }
+    .file {
+      visibility: hidden;
+      position: absolute;
+    }
+    .error{
+    color:red;
+    }
+{% endblock %}
+
+{% block content %}
+
+
+<div class="col-md-12 col-lg-8" style="margin: 0 auto;">
+ <div class="card text-center">
+                 {% for message in messages %}
+                       {% if message %}
+                       <div id="snackbar" class="alert alert-success">{{ message }}</div>
+                           <script>
+                               var x = document.getElementById("snackbar");
+                               x.className = "show";
+                               setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                           </script>
+                       {% endif %}
+                 {% endfor %}
+  <div class="card-header" style="margin-top: 1%">
+      <h5 class="card-title"> <h2 class="text-success text-center">Hi!  {{ request.user.username }} </h2></h5>
+  </div>
+  <div class="card-body">
+
+      <p class="card-text"><h3>Your Available Account Balance is {{ request.user.profile.balance }} $</h3></p>
+      <p class="card-text"><h4>Minimum Withdraw is 50 $( USD ) </h4></p>
+      {% if total_income > 50 %}
+       <a href="#" class="btn btn-primary w-100" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-dollar">  Withdraw</i></a>
+      {% else %}
+        <a href="#" class="btn btn-primary w-100" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" disabled=""><i class="fa fa-dollar">  Withdraw</i></a>
+      {% endif %}
+  </div>
+
+</div>
+<div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content  bg-light">
+      <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><h3 class="text-center text-primary">Submit Your paypal Account Details</h3></h5>
+      </div>
+      <div  class="modal-body">
+        <form name="myForm" method="post" action="" onsubmit="return validateForm();" >{% csrf_token %}
+            <p class="text-center">you will be charge 10% from your withdrawal amount</p>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Paypal Account:</label>
+            <input type="text" placeholder="Enter your paypal account gmail" class="form-control" id="recipient-name" name="paypal">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Ammount:</label>
+            <input type="number" name="ammount_" value="50" class="form-control" id="message-text">
+          </div>
+            <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input type="submit" value="Submit" class="btn btn-primary">
+      </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div><!-- col-md-9 -->
+
+ <script>
+
+function validateForm() {
+     console.log("hi");
+     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  var x = document.getElementById('message-text').value;
+  var y={{ total_income }}
+  var pay=document.getElementById('recipient-name').value;
+   if (pay == "") {
+    alert("Please fill out gmail");
+    return false;
+  }
+ if(reg.test(pay)== false){
+     alert('Invalid Email Address');
+            return false;
+ }
+  if (x == "") {
+    alert("Ammount must be filled out");
+    return false;
+  }
+
+  if(x>y)
+  {
+      alert("In-sufficient funds");
+      return false;
+  }
+
+}
+ </script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}
+Feedback Page
+ {% endblock %}
+{% block css %}
+        #snackbar {
+          visibility: hidden;
+          min-width: 250px;
+          margin-left: -125px;
+          background-color: green;
+          color: #fff;
+          border-radius:10px;
+          text-align: center;
+          padding: 16px;
+          position: fixed;
+          z-index: 1;
+          left: 80%;
+          top: 30px;
+          font-size: 17px;
+        }
+
+        #snackbar.show {
+          visibility: visible;
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+          from {top: 0; opacity: 0;}
+          to {top: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+          from {top: 0; opacity: 0;}
+          to {top: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+          from {top: 30px; opacity: 1;}
+          to {top: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+          from {top: 30px; opacity: 1;}
+          to {top: 0; opacity: 0;}
+        }
+{% endblock %}
+{% block content %}
+
+
+ <div class="content">
+     <div class="container-fluid">
+          <div class="row">
+               <div class="col-md-8">
+                     <form method="post">{% csrf_token %}
+                          <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Feedback Page</h4>
+                                </div>
+                                <div>
+
+                                {% for message in messages %}
+                                        {% if message %}
+                                                          <div id="snackbar" class="alert alert-success">{{ message }}</div>
+                                                <script>
+                                             var x = document.getElementById("snackbar");
+                                              x.className = "show";
+                                              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                                            </script>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-md-2">
+                                            <label>Ratting</label>
+                                            <select id="inputState" class="form-control" name="ratting">
+                                            <option value="5" {% if obj.ratting == 5 %} selected {% endif %}>5</option>
+                                            <option value="4" {% if obj.ratting == 4 %} selected {% endif %}>4</option>
+                                            <option value="3" {% if obj.ratting == 3 %} selected {% endif %}>3</option>
+                                            <option value="2" {% if obj.ratting == 2 %} selected {% endif %}>2</option>
+                                            <option value="1" {% if obj.ratting == 1 %} selected {% endif %}>1</option>
+                                           </select>
+                                        </div>
+                                    <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Feedback</label>
+                                                    <textarea rows="6" cols="80" name="feedback" class="form-control" style="text-align: justify;height: auto;">{{ obj.feedback }}</textarea>
+                                                </div>
+                                            </div>
+                                    <div class="col-md-2">
+                                       <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                     </form>
+               </div>
+          </div>
+     </div>
+ </div>
+{% endblock %}
+
